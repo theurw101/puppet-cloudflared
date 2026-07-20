@@ -1,0 +1,24 @@
+<%- if $tunnel_name { -%>
+tunnel: <%= $tunnel_name %>
+<%- } -%>
+<%- if $credentials_file { -%>
+credentials-file: <%= $credentials_file %>
+<%- } -%>
+
+ingress:
+<%- $ingress.each |$rule| { -%>
+  -
+<%- if $rule['hostname'] { -%>
+    hostname: <%= $rule['hostname'] %>
+<%- } -%>
+<%- if $rule['path'] { -%>
+    path: <%= $rule['path'] %>
+<%- } -%>
+    service: <%= $rule['service'] %>
+<%- if $rule['originRequest'] { -%>
+    originRequest:
+<%- $rule['originRequest'].each |$k,$v| { -%>
+      <%= $k %>: <%= $v %>
+<%- } -%>
+<%- } -%>
+<%- } -%>

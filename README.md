@@ -1,117 +1,102 @@
 # cloudflared
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
-
-The README template below provides a starting point with details about what
-information to include in your README.
-
-## Table of Contents
-
-1. [Description](#description)
-1. [Setup - The basics of getting started with cloudflared](#setup)
-    * [What cloudflared affects](#what-cloudflared-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with cloudflared](#beginning-with-cloudflared)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
+Puppet module for installing and managing Cloudflare Tunnel (`cloudflared`).
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
+This module installs and configures the Cloudflare Tunnel daemon (`cloudflared`) and manages its configuration file and system service.
 
-This should be a fairly short description helps the user decide if your module
-is what they want.
+The module currently supports:
 
-## Setup
+* Installing `cloudflared`
+* Managing `/etc/cloudflared/config.yml`
+* Managing the `cloudflared` systemd service
+* Declarative ingress configuration
+* Multiple ingress rules
+* General Cloudflare Tunnel deployments
 
-### What cloudflared affects **OPTIONAL**
+This module does **not** currently manage:
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+* Interactive `cloudflared tunnel login`
+* Tunnel creation
+* Moving the generated credentials to the .json
 
-If there's more that they should know about, though, this is the place to
-mention:
-
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
-
-### Beginning with cloudflared
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+Tunnel credentials must currently be created and managed externally.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
+### Minimal example
 
-## Reference
+```puppet
+class { 'cloudflared':
+  tunnel_name      => 'mywebsite',
+  credentials_file => '/etc/cloudflared/mywebsite.json',
 
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
+  service_ensure => 'stopped',
 
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
-```
-### `pet::cat`
-
-#### Parameters
-
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+  ingress => [
+    {
+      hostname => 'mywebsite.example.com',
+      service  => 'https://localhost:443',
+      originRequest => {
+        noTLSVerify => true,
+      },
+    },
+    {
+      service => 'http_status:404',
+    },
+  ],
+}
 ```
 
-## Limitations
+This will generate:
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
+```yaml
+tunnel: mywebsite
+credentials-file: /etc/cloudflared/mywebsite.json
+
+ingress:
+  - hostname: mywebsite.example.com
+    service: https://localhost:443
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404
+```
+
+Multiple ingress rules can also by added.
+
+## Manual Tunnel Setup
+
+Cloudflare Tunnel authentication and tunnel creation currently remain external to Puppet. First run puppet, then follow cloudflares manual steps.
+Then puppet can be run again with `service_ensure` set to `running`.
+
+Example:
+
+```bash
+cloudflared tunnel login
+cloudflared tunnel create mywebsite
+```
+
+Move the generated credentials file to:
+
+```text
+/etc/cloudflared/mywebsite.json
+```
+
+Then manage the configuration and service using Puppet and set `service_ensure` to `running`.
+
+## Parameters
+
+| Parameter        | Type                       | Default                              |
+| ---------------- | ----------------           | ------------------------------------ |
+| package_ensure   | String                     | present                              |
+| manage_service   | Boolean                    | true                                 |
+| service_enable   | Boolean                    | true                                 |
+| service_ensure   | Enum['running', 'stopped'] | stopped                              |
+| tunnel_name      | Optional[String]           | undef                                |
+| credentials_file | Optional[String]           | undef                                |
+| ingress          | Array[Hash]                | `[{ service => 'http_status:404' }]` |
 
 ## Development
 
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+Contributions are welcome.
