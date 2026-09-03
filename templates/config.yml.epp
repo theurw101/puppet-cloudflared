@@ -10,6 +10,9 @@ ingress:
 <%- $ingress.each |$rule| { -%>
 <%- if $rule['hostname'] { -%>
   - hostname: <%= $rule['hostname'] %>
+<%- if $rule['path'] { -%>
+    path: <%= $rule['path'] %>
+<%- } -%>
     service: <%= $rule['service'] %>
 <%- } else { -%>
   - service: <%= $rule['service'] %>
