@@ -8,12 +8,12 @@ credentials-file: <%= $credentials_file %>
 <%- if $ingress { -%>
 ingress:
 <%- $ingress.each |$rule| { -%>
-<%-   if $rule['hostname'] { -%>
+<%- if $rule['hostname'] { -%>
   - hostname: <%= $rule['hostname'] %>
     service: <%= $rule['service'] %>
-<%-   } else { -%>
+<%- } else { -%>
   - service: <%= $rule['service'] %>
-<%-   } -%>
+<%- } -%>
 <% if $rule['originRequest'] { -%>
     originRequest:
 <%- $rule['originRequest'].each |$k, $v| { -%>
