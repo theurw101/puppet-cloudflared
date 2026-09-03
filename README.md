@@ -28,12 +28,11 @@ Tunnel credentials must currently be created and managed externally.
 ### Example
 
 ```puppet
-class { 'cloudflared':
-  tunnel_name      => 'mywebsite',
+include cloudflared
+
+cloudflared::tunnel { 'mywebsite':
   credentials_file => '/etc/cloudflared/mywebsite.json',
-
   service_ensure => 'stopped',
-
   ingress => [
     {
       hostname      => 'mywebsite.example.com',
@@ -58,6 +57,7 @@ credentials-file: /etc/cloudflared/mywebsite.json
 
 ingress:
   - hostname: mywebsite.example.com
+    path: ^/api/v1/
     service: https://localhost:443
     originRequest:
       noTLSVerify: true
