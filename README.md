@@ -25,7 +25,7 @@ Tunnel credentials must currently be created and managed externally.
 
 ## Usage
 
-### Minimal example
+### Example
 
 ```puppet
 class { 'cloudflared':
@@ -36,8 +36,9 @@ class { 'cloudflared':
 
   ingress => [
     {
-      hostname => 'mywebsite.example.com',
-      service  => 'https://localhost:443',
+      hostname      => 'mywebsite.example.com',
+      path          => '^/api/v1/',
+      service       => 'https://localhost:443',
       originRequest => {
         noTLSVerify => true,
       },
