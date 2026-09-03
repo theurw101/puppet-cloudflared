@@ -5,20 +5,20 @@ tunnel: <%= $tunnel_name %>
 credentials-file: <%= $credentials_file %>
 <%- } -%>
 
+<%- if $ingress { -%>
 ingress:
 <%- $ingress.each |$rule| { -%>
-  -
-<%- if $rule['hostname'] { -%>
-    hostname: <%= $rule['hostname'] %>
-<%- } -%>
-<%- if $rule['path'] { -%>
-    path: <%= $rule['path'] %>
-<%- } -%>
+<%-   if $rule['hostname'] { -%>
+  - hostname: <%= $rule['hostname'] %>
     service: <%= $rule['service'] %>
-<%- if $rule['originRequest'] { -%>
+<%-   } else { -%>
+  - service: <%= $rule['service'] %>
+<%-   } -%>
+<% if $rule['originRequest'] { -%>
     originRequest:
-<%- $rule['originRequest'].each |$k,$v| { -%>
+<%- $rule['originRequest'].each |$k, $v| { -%>
       <%= $k %>: <%= $v %>
 <%- } -%>
+<% } -%>
 <%- } -%>
 <%- } -%>
