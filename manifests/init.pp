@@ -1,3 +1,10 @@
+# @param package_ensure Whether cloudflared should be installed
+# @param manage_service Whether Puppet should manage the cloudflared service
+# @param service_enable Whether the service should start at boot
+# @param service_ensure Desired state of the cloudflared service
+# @param tunnel_name Name of the Cloudflare Tunnel
+# @param credentials_file Path to the Tunnel credentials file
+# @param ingress Ingress rules for the Cloudflare Tunnel
 class cloudflared (
   String $package_ensure = 'present',
   Boolean $manage_service = true,
