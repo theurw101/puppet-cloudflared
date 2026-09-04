@@ -1,10 +1,10 @@
 define cloudflared::tunnel (
-  String $tunnel_name = $name,
-  String $credentials_file,
   Array[Hash] $ingress,
   String $service_ensure,
+  String $tunnel_name = $name,
+  String $credentials_file,
 ) {
-  file { "/etc/cloudflared/config.yml":
+  file { '/etc/cloudflared/config.yml':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
@@ -14,7 +14,7 @@ define cloudflared::tunnel (
         credentials_file => $credentials_file,
         ingress          => $ingress,
     }),
-    notify => Service['cloudflared'],
+    notify  => Service['cloudflared'],
   }
 }
 
