@@ -1,12 +1,12 @@
 {
-  "name": "artonix101-cloudflared",
-  "version": "0.1.0",
-  "author": "artonix101",
+  "name": "theurw101-cloudflared",
+  "version": "0.0.2",
+  "author": "theurw101",
   "summary": "Install and manage Cloudflare Tunnel (cloudflared)",
   "license": "Apache-2.0",
-  "source": "https://github.com/artonix101/puppet-cloudflared",
-  "issues_url": "https://github.com/artonix101/puppet-cloudflared/issues",
-  "project_page": "https://github.com/artonix101/puppet-cloudflared",
+  "source": "https://github.com/theurw101/puppet-cloudflared",
+  "issues_url": "https://github.com/theurw101/puppet-cloudflared/issues",
+  "project_page": "https://github.com/theurw101/puppet-cloudflared",
   "tags": [
     "cloudflare",
     "cloudflared",
