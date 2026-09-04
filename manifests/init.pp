@@ -3,13 +3,13 @@ class cloudflared (
   Boolean $manage_service = true,
   Boolean $service_enable = true,
   Enum['running','stopped'] $service_ensure = 'stopped',
+  Optional[String] $tunnel_name = undef,
+  Optional[String] $credentials_file = undef,
   Array[Hash] $ingress = [
     {
       'service' => 'http_status:404',
     },
   ],
-  Optional[String] $tunnel_name = undef,
-  Optional[String] $credentials_file = undef,
 ) {
   contain cloudflared::install
   contain cloudflared::config

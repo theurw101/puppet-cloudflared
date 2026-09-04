@@ -1,8 +1,8 @@
 define cloudflared::tunnel (
   Array[Hash] $ingress,
   String $service_ensure,
-  String $tunnel_name = $name,
   String $credentials_file,
+  String $tunnel_name = $name,
 ) {
   file { '/etc/cloudflared/config.yml':
     ensure  => file,
