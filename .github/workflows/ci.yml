@@ -8,22 +8,6 @@ on:
       - master
 
 jobs:
-  setup_matrix:
-    name: "Setup Test Matrix"
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.get-matrix.outputs.matrix }}
-    steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
-
-      - name: Setup Puppet Matrix
-        id: get-matrix
-        uses: voxpupuli/gha-puppet/.github/actions/metadata2matrix@v1
-
   unit_tests:
-    needs: setup_matrix
     name: "Puppet Spec Tests"
-    uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v1
-    with:
-      pid2matrix: ${{ needs.setup_matrix.outputs.matrix }}
+    uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v2
