@@ -26,4 +26,4 @@ jobs:
     name: "Puppet Spec Tests"
     uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v1
     with:
-      pid2matrix: ${{ needs:setup_matrix.outputs.matrix }}
+      pid2matrix: ${{ needs.setup_matrix.outputs.matrix }}
