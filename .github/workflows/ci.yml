@@ -10,4 +10,4 @@ on:
 jobs:
   unit_tests:
     name: "Puppet Spec Tests"
-    uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v2
+    uses: voxpupuli/gha-puppet/.github/workflows/basic.yml@v4
