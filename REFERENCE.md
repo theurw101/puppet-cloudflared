@@ -120,6 +120,7 @@ The cloudflared::tunnel class.
 The following parameters are available in the `cloudflared::tunnel` defined type:
 
 * [`ingress`](#-cloudflared--tunnel--ingress)
+* [`service_ensure`](#-cloudflared--tunnel--service_ensure)
 * [`credentials_file`](#-cloudflared--tunnel--credentials_file)
 * [`tunnel_name`](#-cloudflared--tunnel--tunnel_name)
 
@@ -128,6 +129,12 @@ The following parameters are available in the `cloudflared::tunnel` defined type
 Data type: `Array[Hash]`
 
 Ingress rules for the Cloudflare Tunnel
+
+##### <a name="-cloudflared--tunnel--service_ensure"></a>`service_ensure`
+
+Data type: `String`
+
+Desired state of the cloudflared service
 
 ##### <a name="-cloudflared--tunnel--credentials_file"></a>`credentials_file`
 
