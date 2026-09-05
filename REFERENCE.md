@@ -7,7 +7,6 @@
 ### Classes
 
 * [`cloudflared`](#cloudflared)
-* [`cloudflared::config`](#cloudflared--config)
 * [`cloudflared::install`](#cloudflared--install)
 * [`cloudflared::service`](#cloudflared--service)
 
@@ -96,10 +95,6 @@ Default value:
     },
   ]
 ```
-
-### <a name="cloudflared--config"></a>`cloudflared::config`
-
-The cloudflared::config class.
 
 ### <a name="cloudflared--install"></a>`cloudflared::install`
 
