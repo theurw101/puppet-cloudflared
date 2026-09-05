@@ -22,4 +22,12 @@ class cloudflared::install {
     path    => ['/usr/bin', '/bin'],
     require => Package['cloudflared'],
   }
+
+  file { '/etc/cloudflared':
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => Exec['install_cloudflared_service'],
+  }
 }

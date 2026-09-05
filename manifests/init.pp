@@ -19,10 +19,8 @@ class cloudflared (
   ],
 ) {
   contain cloudflared::install
-  contain cloudflared::config
   contain cloudflared::service
 
   Class['cloudflared::install']
-  -> Class['cloudflared::config']
   ~> Class['cloudflared::service']
 }
