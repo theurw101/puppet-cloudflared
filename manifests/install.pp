@@ -24,10 +24,10 @@ class cloudflared::install {
   }
 
   file { '/etc/cloudflared':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    require  => Exec['install_cloudflared_service'],
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => Exec['install_cloudflared_service'],
   }
 }
