@@ -1,8 +1,10 @@
 # @param ingress Ingress rules for the Cloudflare Tunnel
+# @param service_ensure Desired state of the cloudflared service
 # @param credentials_file Path to the Tunnel credentials file
 # @param tunnel_name Name of the Cloudflare Tunnel
 define cloudflared::tunnel (
   Array[Hash] $ingress,
+  String $service_ensure,
   String $credentials_file,
   String $tunnel_name = $name,
 ) {
