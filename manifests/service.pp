@@ -1,8 +1,14 @@
 class cloudflared::service {
-  if $cloudflared::manage_service {
-    service { 'cloudflared':
-      ensure => $cloudflared::service_ensure,
-      enable => $cloudflared::service_enable,
-    }
+  service { 'cloudflared':
+    ensure => $cloudflared::package_ensure ? {
+      'absent' => 'stopped',
+      'purged' => 'stopped',
+      default  => 'stopped',
+    },
+    enable => $cloudflared::package_ensure ? {
+      'absent' => false,
+      'purged' => false,
+      default  => false,
+    },
   }
 }
