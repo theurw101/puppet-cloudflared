@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 **Features**
 - Install and uninstall cloudflared with `package_ensure`
-- Manage service 
+- Manage service
 - Manage tunnel config file
 
 **Bugfixes**
