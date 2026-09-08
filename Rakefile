@@ -16,8 +16,8 @@ rescue LoadError
   # only available if gem group releases is installed
 else
   # Github Changelog Generator configuration
-  GCGConfig.user = '<no value>'                     # your GitHub namespace
-  GCGConfig.project = '<no value>-<no value>'  # the module repository name
+  GCGConfig.user = 'theurw101'                     # your GitHub namespace
+  GCGConfig.project = 'puppet-cloudflared'  # the module repository name
 end
 
 desc "Run main 'test' task and report merged results to coveralls"
