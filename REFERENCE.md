@@ -25,7 +25,6 @@ The cloudflared class.
 The following parameters are available in the `cloudflared` class:
 
 * [`package_ensure`](#-cloudflared--package_ensure)
-* [`manage_service`](#-cloudflared--manage_service)
 * [`service_enable`](#-cloudflared--service_enable)
 * [`service_ensure`](#-cloudflared--service_ensure)
 * [`tunnel_name`](#-cloudflared--tunnel_name)
@@ -34,19 +33,11 @@ The following parameters are available in the `cloudflared` class:
 
 ##### <a name="-cloudflared--package_ensure"></a>`package_ensure`
 
-Data type: `String`
+Data type: `Enum['present','absent']`
 
 Whether cloudflared should be installed
 
 Default value: `'present'`
-
-##### <a name="-cloudflared--manage_service"></a>`manage_service`
-
-Data type: `Boolean`
-
-Whether Puppet should manage the cloudflared service
-
-Default value: `true`
 
 ##### <a name="-cloudflared--service_enable"></a>`service_enable`
 
@@ -54,7 +45,7 @@ Data type: `Boolean`
 
 Whether the service should start at boot
 
-Default value: `true`
+Default value: `false`
 
 ##### <a name="-cloudflared--service_ensure"></a>`service_ensure`
 
