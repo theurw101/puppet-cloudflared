@@ -135,4 +135,3 @@ Data type: `String`
 Name of the Cloudflare Tunnel
 
 Default value: `$name`
-
