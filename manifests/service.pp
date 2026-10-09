@@ -1,3 +1,4 @@
+# @summary Manage cloudflared service
 class cloudflared::service {
   $effective_service_ensure = $cloudflared::package_ensure ? {
     'absent'  => 'stopped',
