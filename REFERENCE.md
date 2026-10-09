@@ -7,8 +7,8 @@
 ### Classes
 
 * [`cloudflared`](#cloudflared)
-* [`cloudflared::install`](#cloudflared--install)
-* [`cloudflared::service`](#cloudflared--service)
+* [`cloudflared::install`](#cloudflared--install): Install cloudflared package
+* [`cloudflared::service`](#cloudflared--service): Manage cloudflared service
 
 ### Defined types
 
@@ -89,11 +89,11 @@ Default value:
 
 ### <a name="cloudflared--install"></a>`cloudflared::install`
 
-The cloudflared::install class.
+Install cloudflared package
 
 ### <a name="cloudflared--service"></a>`cloudflared::service`
 
-The cloudflared::service class.
+Manage cloudflared service
 
 ## Defined types
 
@@ -135,4 +135,3 @@ Data type: `String`
 Name of the Cloudflare Tunnel
 
 Default value: `$name`
-
