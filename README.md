@@ -1,5 +1,12 @@
 # cloudflared
 
+[![CI](https://github.com/theurw101/puppet-cloudflared/actions/workflows/ci.yml/badge.svg)](https://github.com/theurw101/puppet-cloudflared/actions/workflows/ci.yml)
+[![Release to the Puppet Forge](https://github.com/theurw101/puppet-cloudflared/actions/workflows/release.yml/badge.svg)](https://github.com/theurw101/puppet-cloudflared/actions/workflows/release.yml)
+[![Puppet Forge version](https://img.shields.io/puppetforge/v/theurw101/cloudflared.svg)](https://forge.puppet.com/modules/theurw101/cloudflared)
+[![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/theurw101/cloudflared.svg)](https://forge.puppet.com/modules/theurw101/cloudflared)
+[![Puppet >= 8.0, < 9.0](https://img.shields.io/badge/puppet-%3E%3D8.0.0_%3C_9.0.0-blue.svg)](metadata.json)
+[![License: Apache-2.0](https://img.shields.io/github/license/theurw101/puppet-cloudflared.svg)](LICENSE)
+
 Puppet module for installing and managing Cloudflare Tunnel (`cloudflared`).
 
 ## Description
