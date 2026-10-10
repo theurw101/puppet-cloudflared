@@ -25,6 +25,9 @@ class cloudflared::install {
           require  => Archive['/tmp/cloudflared.rpm'],
         }
       }
+      default: {
+        fail("${facts['os']['family']} not supported")
+      }
     }
     exec { 'install_cloudflared_service':
       command => '/usr/bin/cloudflared service install',
@@ -46,21 +49,9 @@ class cloudflared::install {
       onlyif  => '/usr/bin/test -f /etc/systemd/system/cloudflared.service',
       path    => ['/usr/bin', '/bin'],
     }
-    case $facts['os']['family'] {
-      'Debian': {
-        package { 'cloudflared':
-          ensure   => absent,
-          provider => 'dpkg',
-          require  => Exec['uninstall_cloudflared_service'],
-        }
-      }
-      'RedHat', 'Suse': {
-        package { 'cloudflared':
-          ensure   => absent,
-          provider => 'rpm',
-          require  => Exec['uninstall_cloudflared_service'],
-        }
-      }
+    package { 'cloudflared':
+      ensure   => absent,
+      require  => Exec['uninstall_cloudflared_service'],
     }
   }
 }
