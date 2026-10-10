@@ -56,7 +56,7 @@ cloudflared::tunnel { 'mywebsite':
 }
 ```
 
-This will generate:
+This will generate `/etc/cloudflared/config.yml`:
 
 ```yaml
 tunnel: mywebsite
@@ -73,6 +73,13 @@ ingress:
 
 Multiple ingress rules can also by added.
 
+### Uninstallation:
+
+```puppet
+class { 'cloudflared':
+  package_ensure => 'absent'
+}
+```
 ## Manual Tunnel Setup
 
 Cloudflare Tunnel authentication and tunnel creation currently remain external to Puppet. First run puppet, then follow cloudflares manual steps.
@@ -98,7 +105,6 @@ Then manage the configuration and service using Puppet and set `service_ensure` 
 | Parameter        | Type                       | Default                              |
 | ---------------- | ----------------           | ------------------------------------ |
 | package_ensure   | String                     | present                              |
-| manage_service   | Boolean                    | true                                 |
 | service_enable   | Boolean                    | true                                 |
 | service_ensure   | Enum['running', 'stopped'] | stopped                              |
 | tunnel_name      | Optional[String]           | undef                                |
