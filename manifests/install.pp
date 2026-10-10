@@ -1,18 +1,33 @@
 # @summary Install cloudflared package
 class cloudflared::install {
-  $package_file = '/tmp/cloudflared.deb'
-  $package_url = 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb'
+  $package_url = 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux'
   if $cloudflared::package_ensure == 'present' {
-    exec { 'download_cloudflared':
-      command => "/usr/bin/curl -fsSL -o ${package_file} ${package_url}",
-      creates => $package_file,
-      path    => ['/usr/bin', '/bin'],
-    }
-    package { 'cloudflared':
-      ensure   => $cloudflared::package_ensure,
-      provider => 'dpkg',
-      source   => $package_file,
-      require  => Exec['download_cloudflared'],
+    case $facts['os']['family'] {
+      'Debian': {
+        archive { '/tmp/cloudflared.deb':
+          source => "${package_url}-amd64.deb",
+        }
+        package { 'cloudflared':
+          ensure   => $cloudflared::package_ensure,
+          provider => 'dpkg',
+          source   => '/tmp/cloudflared.deb',
+          require  => Archive['/tmp/cloudflared.deb'],
+        }
+      }
+      'RedHat', 'Suse': {
+        archive { '/tmp/cloudflared.rpm':
+          source => "${package_url}-x86_64.rpm",
+        }
+        package { 'cloudflared':
+          ensure   => $cloudflared::package_ensure,
+          provider => 'rpm',
+          source   => '/tmp/cloudflared.rpm',
+          require  => Archive['/tmp/cloudflared.rpm'],
+        }
+      }
+      default: {
+        fail("${facts['os']['family']} not supported")
+      }
     }
     exec { 'install_cloudflared_service':
       command => '/usr/bin/cloudflared service install',
@@ -35,9 +50,8 @@ class cloudflared::install {
       path    => ['/usr/bin', '/bin'],
     }
     package { 'cloudflared':
-      ensure   => absent,
-      provider => 'dpkg',
-      require  => Exec['uninstall_cloudflared_service'],
+      ensure  => absent,
+      require => Exec['uninstall_cloudflared_service'],
     }
   }
 }
