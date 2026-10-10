@@ -50,8 +50,8 @@ class cloudflared::install {
       path    => ['/usr/bin', '/bin'],
     }
     package { 'cloudflared':
-      ensure   => absent,
-      require  => Exec['uninstall_cloudflared_service'],
+      ensure  => absent,
+      require => Exec['uninstall_cloudflared_service'],
     }
   }
 }
