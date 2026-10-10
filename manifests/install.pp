@@ -56,10 +56,9 @@ class cloudflared::install {
       }
       'RedHat', 'Suse': {
         package { 'cloudflared':
-          ensure   => $cloudflared::package_ensure,
+          ensure   => absent,
           provider => 'rpm',
-          source   => '/tmp/cloudflared.rpm',
-          require  => Archive['/tmp/cloudflared.rpm'],
+          require  => Exec['uninstall_cloudflared_service'],
         }
       }
     }
