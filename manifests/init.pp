@@ -6,9 +6,8 @@
 # @param ingress Ingress rules for the Cloudflare Tunnel
 class cloudflared (
   Enum['present','absent'] $package_ensure = 'present',
-  # Boolean $manage_service = true,
-  Boolean $service_enable = false,
-  Enum['running','stopped'] $service_ensure = 'stopped',
+  Boolean $service_enable = true,
+  Enum['running','stopped'] $service_ensure = 'running',
   Optional[String] $tunnel_name = undef,
   Optional[String] $credentials_file = undef,
   Array[Hash] $ingress = [
@@ -25,5 +24,7 @@ class cloudflared (
   } else {
     # Installation: Install package, then start service
     Class['cloudflared::install'] ~> Class['cloudflared::service']
+    # Every tunnel must be configured before the service is installed.
+    Cloudflared::Tunnel <| |> -> Exec['install_cloudflared_service']
   }
 }

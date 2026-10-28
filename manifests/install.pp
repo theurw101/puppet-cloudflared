@@ -29,19 +29,18 @@ class cloudflared::install {
         fail("${facts['os']['family']} not supported")
       }
     }
-    exec { 'install_cloudflared_service':
-      command => '/usr/bin/cloudflared service install',
-      creates => '/etc/systemd/system/cloudflared.service',
-      path    => ['/usr/bin', '/bin'],
-      returns => [0, 1], #Allows this resource to fail. It would fail to start service becasue of the not properly configured config.yaml
-      require => Package['cloudflared'],
-    }
     file { '/etc/cloudflared':
       ensure  => directory,
       owner   => 'root',
       group   => 'root',
       mode    => '0755',
-      require => Exec['install_cloudflared_service'],
+      require => Package['cloudflared'],
+    }
+    exec { 'install_cloudflared_service':
+      command => '/usr/bin/cloudflared service install',
+      creates => '/etc/systemd/system/cloudflared.service',
+      require => File['/etc/cloudflared'],
+      notify  => Service['cloudflared'],
     }
   } elsif $cloudflared::package_ensure == 'absent' {
     exec { 'uninstall_cloudflared_service':
