@@ -14,6 +14,10 @@
 
 * [`cloudflared::tunnel`](#cloudflared--tunnel)
 
+### Resource types
+
+* [`cloudflared_tunnel`](#cloudflared_tunnel): Create a locally managed Cloudflare Tunnel and manage its local credentials and configuration files.
+
 ## Classes
 
 ### <a name="cloudflared"></a>`cloudflared`
@@ -45,7 +49,7 @@ Data type: `Boolean`
 
 Whether the service should start at boot
 
-Default value: `false`
+Default value: `true`
 
 ##### <a name="-cloudflared--service_ensure"></a>`service_ensure`
 
@@ -53,7 +57,7 @@ Data type: `Enum['running','stopped']`
 
 Desired state of the cloudflared service
 
-Default value: `'stopped'`
+Default value: `'running'`
 
 ##### <a name="-cloudflared--tunnel_name"></a>`tunnel_name`
 
@@ -106,21 +110,17 @@ The cloudflared::tunnel class.
 The following parameters are available in the `cloudflared::tunnel` defined type:
 
 * [`ingress`](#-cloudflared--tunnel--ingress)
-* [`service_ensure`](#-cloudflared--tunnel--service_ensure)
 * [`credentials_file`](#-cloudflared--tunnel--credentials_file)
 * [`tunnel_name`](#-cloudflared--tunnel--tunnel_name)
+* [`account_id`](#-cloudflared--tunnel--account_id)
+* [`api_token`](#-cloudflared--tunnel--api_token)
+* [`tunnel_secret`](#-cloudflared--tunnel--tunnel_secret)
 
 ##### <a name="-cloudflared--tunnel--ingress"></a>`ingress`
 
 Data type: `Array[Hash]`
 
 Ingress rules for the Cloudflare Tunnel
-
-##### <a name="-cloudflared--tunnel--service_ensure"></a>`service_ensure`
-
-Data type: `String`
-
-Desired state of the cloudflared service
 
 ##### <a name="-cloudflared--tunnel--credentials_file"></a>`credentials_file`
 
@@ -135,3 +135,93 @@ Data type: `String`
 Name of the Cloudflare Tunnel
 
 Default value: `$name`
+
+##### <a name="-cloudflared--tunnel--account_id"></a>`account_id`
+
+Data type: `Optional[String]`
+
+Cloudflare account ID; enables API-managed local tunnel creation when provided
+
+Default value: `undef`
+
+##### <a name="-cloudflared--tunnel--api_token"></a>`api_token`
+
+Data type: `Optional[Sensitive[String]]`
+
+Sensitive-wrapped Cloudflare API token with tunnel write permission
+
+Default value: `undef`
+
+##### <a name="-cloudflared--tunnel--tunnel_secret"></a>`tunnel_secret`
+
+Data type: `Optional[Sensitive[String]]`
+
+Sensitive-wrapped, stable base64 tunnel secret of at least 32 bytes
+
+Default value: `undef`
+
+## Resource types
+
+### <a name="cloudflared_tunnel"></a>`cloudflared_tunnel`
+
+Create a locally managed Cloudflare Tunnel and manage its local credentials and configuration files.
+
+#### Properties
+
+The following properties are available in the `cloudflared_tunnel` type.
+
+##### `ensure`
+
+Valid values: `present`
+
+Whether the tunnel exists and its local credentials file is valid.
+
+Default value: `present`
+
+#### Parameters
+
+The following parameters are available in the `cloudflared_tunnel` type.
+
+* [`account_id`](#-cloudflared_tunnel--account_id)
+* [`api_token`](#-cloudflared_tunnel--api_token)
+* [`config_file`](#-cloudflared_tunnel--config_file)
+* [`credentials_file`](#-cloudflared_tunnel--credentials_file)
+* [`ingress`](#-cloudflared_tunnel--ingress)
+* [`name`](#-cloudflared_tunnel--name)
+* [`provider`](#-cloudflared_tunnel--provider)
+* [`tunnel_secret`](#-cloudflared_tunnel--tunnel_secret)
+
+##### <a name="-cloudflared_tunnel--account_id"></a>`account_id`
+
+The Cloudflare account ID.
+
+##### <a name="-cloudflared_tunnel--api_token"></a>`api_token`
+
+A Sensitive-wrapped Cloudflare API token with tunnel write permission.
+
+##### <a name="-cloudflared_tunnel--config_file"></a>`config_file`
+
+Path for the cloudflared configuration file.
+
+##### <a name="-cloudflared_tunnel--credentials_file"></a>`credentials_file`
+
+Path for the tunnel-specific credentials JSON file.
+
+##### <a name="-cloudflared_tunnel--ingress"></a>`ingress`
+
+Ingress rules for the locally managed tunnel.
+
+##### <a name="-cloudflared_tunnel--name"></a>`name`
+
+namevar
+
+The Cloudflare Tunnel name.
+
+##### <a name="-cloudflared_tunnel--provider"></a>`provider`
+
+The specific backend to use for this `cloudflared_tunnel` resource. You will seldom need to specify this --- Puppet will
+usually discover the appropriate provider for your platform.
+
+##### <a name="-cloudflared_tunnel--tunnel_secret"></a>`tunnel_secret`
+
+A Sensitive-wrapped, base64-encoded tunnel secret of at least 32 bytes.

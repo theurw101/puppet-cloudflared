@@ -11,7 +11,7 @@ describe 'cloudflared' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_class('cloudflared::install') }
         it { is_expected.to contain_class('cloudflared::service') }
-        it { is_expected.to contain_service('cloudflared').with(ensure: 'stopped', enable: false) }
+        it { is_expected.to contain_service('cloudflared').with(ensure: 'running', enable: true) }
 
         case os_facts[:os]['family']
         when 'Debian'
@@ -32,12 +32,6 @@ describe 'cloudflared' do
         it { is_expected.not_to contain_archive('/tmp/cloudflared.deb') }
         it { is_expected.not_to contain_archive('/tmp/cloudflared.rpm') }
         it { is_expected.to contain_service('cloudflared').with(ensure: 'stopped', enable: false) }
-      end
-
-      context 'when the service should be running' do
-        let(:params) { { service_ensure: 'running', service_enable: true } }
-
-        it { is_expected.to contain_service('cloudflared').with(ensure: 'running', enable: true) }
       end
     end
   end
