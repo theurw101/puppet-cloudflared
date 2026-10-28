@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v0.1.2](https://github.com/theurw101/puppet-cloudflared/tree/v0.1.2) (2026-10-10)
+## [v1.0.0](https://github.com/theurw101/puppet-cloudflared/tree/v1.0.0) (2026-10-28)
 
-[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/0.1.1...v0.1.2)
+[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/0.1.2...v1.0.0)
+
+**Merged pull requests:**
+
+- Add API tunnel creation feat with tests [\#15](https://github.com/theurw101/puppet-cloudflared/pull/15) ([theurw101](https://github.com/theurw101))
+
+## [0.1.2](https://github.com/theurw101/puppet-cloudflared/tree/0.1.2) (2026-10-10)
+
+[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/0.1.1...0.1.2)
 
 **Merged pull requests:**
 
