@@ -94,7 +94,7 @@ If the tunnel and its credentials file already exist, you can configure it direc
 cloudflared::tunnel_name: '6ff42ae2-765d-4adf-8112-31c55c1551ef'
 cloudflared::credentials_file: '/etc/cloudflared/6ff42ae2-765d-4adf-8112-31c55c1551ef.json'
 cloudflared::ingress:
-  - hostname: 'app.example.com'
+  - hostname: 'mywebsite.example.com'
     service: 'http://localhost:8080'
   - service: 'http_status:404'
 ```
@@ -140,3 +140,7 @@ Supply all three of `account_id`, `api_token`, and `tunnel_secret` to enable API
 ## Development
 
 Contributions are welcome.
+
+### AI assistance
+
+This project uses [Claude Code](https://claude.com/claude-code) to help prepare pull requests. Commits written with Claude carry a `Co-Authored-By: Claude` trailer, and all changes are reviewed by a maintainer before merging.
