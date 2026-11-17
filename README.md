@@ -86,6 +86,21 @@ The domain's DNS zone must already be added to and active in your Cloudflare acc
 cloudflared tunnel route dns mytunnel <website>
 ```
 
+### Single file-only tunnel via the class (e.g. from Hiera)
+
+If the tunnel and its credentials file already exist, you can configure it directly through the class instead of declaring `cloudflared::tunnel`. `tunnel_name` should be the tunnel UUID, since there is no `cert.pem` to resolve a name:
+
+```yaml
+cloudflared::tunnel_name: '6ff42ae2-765d-4adf-8112-31c55c1551ef'
+cloudflared::credentials_file: '/etc/cloudflared/6ff42ae2-765d-4adf-8112-31c55c1551ef.json'
+cloudflared::ingress:
+  - hostname: 'app.example.com'
+    service: 'http://localhost:8080'
+  - service: 'http_status:404'
+```
+
+A tunnel configuration is required: `include cloudflared` without `tunnel_name` or a `cloudflared::tunnel` resource cannot install the service, because `cloudflared service install` needs `/etc/cloudflared/config.yml`.
+
 ### Uninstallation:
 
 ```puppet
