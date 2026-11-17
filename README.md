@@ -28,6 +28,7 @@ This module does **not** manage:
 * Registering domains
 * Creation or rotation of Cloudflare API tokens
 * Public hostname DNS routes
+* More than one tunnel per node (see [Limitations](#limitations))
 
 When API-managed creation is enabled, Puppet creates a locally configured tunnel through the Cloudflare API and writes its tunnel credentials and `config.yml` on the node. The Cloudflare API token must be provisioned separately and supplied as a Puppet `Sensitive` value. Puppet checks the API during each agent run so it can recreate a tunnel that was deleted outside Puppet.
 
@@ -136,6 +137,28 @@ The cloudflared service is running and enabled at boot by default. Set `service_
 | tunnel_secret    | Optional[Sensitive[String]]      | undef   |
 
 Supply all three of `account_id`, `api_token`, and `tunnel_secret` to enable API-managed tunnel creation; wrap the token and secret with `Sensitive()`. When all three are omitted, the module keeps the file-only behavior and writes `/etc/cloudflared/config.yml` without creating or adopting a Cloudflare tunnel through the API.
+
+## Limitations
+
+### One tunnel per node
+
+The module manages a single tunnel per node. Every tunnel writes the same `/etc/cloudflared/config.yml`, and only one `cloudflared` service is installed. Declare at most one tunnel per node, either with `cloudflared::tunnel` or with the class's `tunnel_name` parameter, not both:
+
+* In file-only mode, a second tunnel fails catalog compilation with a duplicate `File['/etc/cloudflared/config.yml']` declaration.
+* In API-managed mode, a second tunnel compiles, but the tunnels overwrite each other's config on every Puppet run and the service restarts each time.
+
+To serve several hostnames or services from one node, list them as ingress rules on a single tunnel:
+
+```puppet
+cloudflared::tunnel { 'mytunnel':
+  # ...
+  ingress => [
+    { hostname => 'website1.example.com', service => 'http://localhost:8080' },
+    { hostname => 'website2.example.com', service => 'http://localhost:9000' },
+    { service  => 'http_status:404' },
+  ],
+}
+```
 
 ## Development
 
