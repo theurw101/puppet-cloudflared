@@ -15,7 +15,7 @@ This module installs and configures the Cloudflare Tunnel daemon (`cloudflared`)
 
 The module currently supports:
 
-* Installing `cloudflared` (Debian, RedHat, and SUSE families)
+* Installing `cloudflared` (Debian, RedHat, and SUSE families; x86_64/amd64 and aarch64/arm64)
 * Managing `/etc/cloudflared/config.yml`
 * Managing the `cloudflared` systemd service
 * API-managed creation of locally configured tunnels without a browser
