@@ -1,11 +1,24 @@
 # @summary Install cloudflared package
 class cloudflared::install {
   $package_url = 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux'
+  # os.architecture is amd64/arm64 on Debian and x86_64/aarch64 on RedHat/Suse
+  $arch = $facts['os']['architecture'] ? {
+    /^(x86_64|amd64)$/  => 'x86_64',
+    /^(aarch64|arm64)$/ => 'aarch64',
+    default             => undef,
+  }
   if $cloudflared::package_ensure == 'present' {
+    if $arch == undef {
+      fail("cloudflared: architecture ${facts['os']['architecture']} is not supported (supported: x86_64/amd64, aarch64/arm64)")
+    }
     case $facts['os']['family'] {
       'Debian': {
+        $deb_arch = $arch ? {
+          'x86_64'  => 'amd64',
+          'aarch64' => 'arm64',
+        }
         archive { '/tmp/cloudflared.deb':
-          source => "${package_url}-amd64.deb",
+          source => "${package_url}-${deb_arch}.deb",
         }
         package { 'cloudflared':
           ensure   => $cloudflared::package_ensure,
@@ -16,7 +29,7 @@ class cloudflared::install {
       }
       'RedHat', 'Suse': {
         archive { '/tmp/cloudflared.rpm':
-          source => "${package_url}-x86_64.rpm",
+          source => "${package_url}-${arch}.rpm",
         }
         package { 'cloudflared':
           ensure   => $cloudflared::package_ensure,
