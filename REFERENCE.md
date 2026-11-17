@@ -6,7 +6,7 @@
 
 ### Classes
 
-* [`cloudflared`](#cloudflared)
+* [`cloudflared`](#cloudflared): Install and manage Cloudflare Tunnel (cloudflared)
 * [`cloudflared::install`](#cloudflared--install): Install cloudflared package
 * [`cloudflared::service`](#cloudflared--service): Manage cloudflared service
 
@@ -22,7 +22,9 @@
 
 ### <a name="cloudflared"></a>`cloudflared`
 
-The cloudflared class.
+A tunnel configuration is required for the service to be installed. Either
+set `tunnel_name` (and `credentials_file`) here to manage a single file-only
+tunnel, or declare a `cloudflared::tunnel` resource yourself.
 
 #### Parameters
 
@@ -63,7 +65,8 @@ Default value: `'running'`
 
 Data type: `Optional[String]`
 
-Name of the Cloudflare Tunnel
+UUID of an existing Cloudflare Tunnel. When set, the class declares a
+file-only `cloudflared::tunnel` with `credentials_file` and `ingress`.
 
 Default value: `undef`
 
@@ -71,7 +74,7 @@ Default value: `undef`
 
 Data type: `Optional[String]`
 
-Path to the Tunnel credentials file
+Path to the Tunnel credentials file; required when `tunnel_name` is set
 
 Default value: `undef`
 
@@ -79,7 +82,7 @@ Default value: `undef`
 
 Data type: `Array[Hash]`
 
-Ingress rules for the Cloudflare Tunnel
+Ingress rules for the tunnel declared via `tunnel_name`
 
 Default value:
 

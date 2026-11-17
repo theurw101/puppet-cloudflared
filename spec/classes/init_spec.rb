@@ -23,6 +23,42 @@ describe 'cloudflared' do
         end
       end
 
+      describe 'with default parameters (no tunnel)' do
+        it { is_expected.to have_cloudflared__tunnel_resource_count(0) }
+      end
+
+      context 'with tunnel parameters on the class' do
+        let(:params) do
+          {
+            tunnel_name: '6ff42ae2-765d-4adf-8112-31c55c1551ef',
+            credentials_file: '/etc/cloudflared/6ff42ae2.json',
+            ingress: [
+              { 'hostname' => 'app.example.com', 'service' => 'http://localhost:8080' },
+              { 'service' => 'http_status:404' },
+            ],
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+
+        it do
+          is_expected.to contain_cloudflared__tunnel('6ff42ae2-765d-4adf-8112-31c55c1551ef').with(
+            credentials_file: '/etc/cloudflared/6ff42ae2.json',
+            ingress: params[:ingress],
+          )
+        end
+
+        it { is_expected.to contain_file('/etc/cloudflared/config.yml').with_content(%r{^tunnel: 6ff42ae2-765d-4adf-8112-31c55c1551ef$}) }
+        it { is_expected.to contain_file('/etc/cloudflared/config.yml').with_content(%r{^credentials-file: /etc/cloudflared/6ff42ae2\.json$}) }
+        it { is_expected.to contain_file('/etc/cloudflared/config.yml').that_comes_before('Exec[install_cloudflared_service]') }
+      end
+
+      context 'with tunnel_name but no credentials_file' do
+        let(:params) { { tunnel_name: '6ff42ae2-765d-4adf-8112-31c55c1551ef' } }
+
+        it { is_expected.to compile.and_raise_error(%r{credentials_file is required when tunnel_name is set}) }
+      end
+
       context 'when the package is absent' do
         let(:params) { { package_ensure: 'absent' } }
 
