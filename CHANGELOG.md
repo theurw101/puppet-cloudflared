@@ -4,9 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v1.0.0](https://github.com/theurw101/puppet-cloudflared/tree/v1.0.0) (2026-10-28)
+## [v1.1.0](https://github.com/theurw101/puppet-cloudflared/tree/v1.1.0) (2026-11-21)
 
-[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/0.1.2...v1.0.0)
+[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/1.0.0...v1.1.0)
+
+**Merged pull requests:**
+
+- Install the cloudflared package matching the node architecture [\#20](https://github.com/theurw101/puppet-cloudflared/pull/20) ([theurw101](https://github.com/theurw101))
+- Document the one-tunnel-per-node limitation in README [\#19](https://github.com/theurw101/puppet-cloudflared/pull/19) ([theurw101](https://github.com/theurw101))
+- Note use of Claude Code for pull requests in README [\#18](https://github.com/theurw101/puppet-cloudflared/pull/18) ([theurw101](https://github.com/theurw101))
+- Wire up tunnel parameters on the cloudflared class [\#17](https://github.com/theurw101/puppet-cloudflared/pull/17) ([theurw101](https://github.com/theurw101))
+
+## [1.0.0](https://github.com/theurw101/puppet-cloudflared/tree/1.0.0) (2026-10-28)
+
+[Full Changelog](https://github.com/theurw101/puppet-cloudflared/compare/0.1.2...1.0.0)
 
 **Merged pull requests:**
 
